@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0e12">
+  <title>CHOPROOM — Sample Chopping Studio</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./enhancements.css">
+  <link rel="stylesheet" href="./ui-refresh.css">
+  <link rel="stylesheet" href="./device_panel.css">
+  <link rel="stylesheet" href="./arranger-skin.css">
+  <link rel="stylesheet" href="./studio-gray.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <div class="brand"><span class="brand-mark"><span></span><span></span><span></span><span></span></span><div><strong>CHOPROOM</strong><small>YOUR SAMPLE WORKSPACE</small></div></div>
+      <div class="rail-group rail-workspace-group">
+        <span class="rail-label">WORKSPACE</span>
+        <nav class="rail-nav" aria-label="CHOPROOM workspace sections">
+          <button class="rail-link active" type="button" data-nav-target="sourceWorkspace" aria-current="location"><span class="rail-icon">◫</span> Source editor <span class="active-dot"></span></button>
+          <button class="rail-link" type="button" data-nav-target="padWorkspace"><span class="rail-icon">▦</span> Chopping & pads</button>
+          <button class="rail-link" type="button" data-nav-target="arrangerWorkspace"><span class="rail-icon">▤</span> Arrangement</button>
+          <button class="rail-link" type="button" data-nav-target="controllerWorkspace"><span class="rail-icon">◈</span> Controllers</button>
+          <button class="rail-link" type="button" data-nav-target="vaultWorkspace"><span class="rail-icon">⬡</span> Chop library</button>
+        </nav>
+      </div>
+      <div class="rail-group"><span class="rail-label">SESSION</span><div class="rail-info"><div class="rail-info-label">SESSION NAME</div><div id="railTrack" class="rail-info-value">Untitled Session</div><div class="rail-info-label margin">SOURCE AUDIO</div><div id="railFormat" class="rail-info-value">No audio loaded</div></div></div>
+      <div class="rail-foot"><span class="status-dot"></span> LOCAL AUDIO ENGINE <span class="version">v1.0</span><p>Designed for chopping first.<br>Finish your sounds in Ableton.</p></div>
+    </aside>
+    <main class="workspace">
+      <header class="topbar">
+        <div><div class="eyebrow"><span class="line-accent"></span> CREATIVE WORKSPACE / SAMPLER</div><h1>Make the cut<span class="period">.</span></h1><p>Drop a sample. Find the moment. Make something new.</p></div>
+        <div class="top-actions"><div class="local-tag"><span class="status-dot"></span> 100% LOCAL</div><button class="theme-switch" id="themeToggle" type="button" aria-label="Switch to light theme" aria-pressed="false" title="Switch light and dark theme"><span class="theme-icon" aria-hidden="true">◐</span><span id="themeToggleLabel">Dark</span></button><button class="button quiet" id="openProject" title="Reload previously saved chop markers">Open session</button><button class="button quiet" id="saveProject" title="Save markers and session settings">Save session <span class="arrow">↗</span></button><button class="button primary" id="exportAll"><span class="download-symbol">⇩</span> Export to Ableton</button></div>
+      </header>
+      <div class="content">
+        <section class="source-card" id="sourceWorkspace">
+          <div class="section-line"><span class="section-num">01</span><h2>Source audio</h2><span class="section-hint">LOAD · LISTEN · MARK</span></div>
+          <div id="dropzone" class="source-strip" tabindex="0" role="button" aria-label="Load an audio file">
+            <div class="record-icon"><div></div></div><div class="source-copy"><strong id="sourceName">No sample loaded</strong><span id="sourceDescription">Drag an MP3, WAV, AIFF or other browser-supported audio file here</span></div>
+            <div class="source-meta"><span id="duration">00:00</span><span class="source-meta-dot">•</span><span id="fileSize">LOCAL FILE</span></div>
+            <label class="library-select-label" for="libraryTrack">LIBRARY
+              <select id="libraryTrack" title="Load a song already on this Mac">
+                <option value="" selected>No bundled audio; choose a local file</option>
+              </select>
+            </label>
+            <button class="button source-button" id="chooseFile" type="button">Choose audio <span class="arrow">↗</span></button>
+          </div>
+          <input type="file" id="fileInput" accept="audio/*,.wav,.mp3,.aiff,.aif,.m4a,.flac,.ogg" hidden>
+          <div class="wave-shell">
+            <div class="wave-header">
+              <div class="wave-title"><span class="wave-glyph">▥</span> WAVEFORM <span id="waveHint">Two-finger swipe pans · drag markers to refine</span></div>
+              <div class="wave-toolbar">
+                <div class="wave-tool-switch" role="group" aria-label="Waveform editing tool">
+                  <button type="button" id="seekTool" class="wave-tool active" aria-pressed="true" title="Listen and move the playhead without making cuts"><span aria-hidden="true">⌖</span> Seek</button>
+                  <button type="button" id="slicerTool" class="wave-tool" aria-pressed="false" title="Click the waveform to add a new cut"><span aria-hidden="true">✂</span> Slicer</button>
+                  <button type="button" id="deleteTool" class="wave-tool" aria-pressed="false" title="Click any chop to remove it from your working set"><span aria-hidden="true">⌫</span> Delete</button>
+                </div>
+                <div class="wave-tools"><span class="zoom-label">ZOOM</span><button class="tiny-button" id="zoomOut" title="Zoom out">−</button><span id="zoomAmount">1.0×</span><button class="tiny-button" id="zoomIn" title="Zoom in">+</button><button class="tiny-button fit" id="fitWave">Fit</button></div>
+              </div>
+            </div>
+            <div class="wave-canvas-wrap" id="waveArea"><canvas id="waveform" aria-label="Interactive audio waveform with slice boundaries"></canvas><div id="waveEmpty" class="wave-empty"><span class="empty-icon">〜</span><strong>Start with a sound.</strong><span>Drop a file above or try a sample to get chopping.</span><button class="button subdued" id="loadDemo">Try a sample <span class="arrow">↗</span></button></div></div>
+            <canvas id="overview" class="overview" title="Click to move the waveform view"></canvas>
+            <div class="ruler"><span id="rulerStart">00:00.00</span><span id="rulerMid">00:00.00</span><span id="rulerEnd">00:00.00</span></div>
+          </div>
+          <div class="transport"><div class="transport-left"><button class="transport-play" id="playSource" type="button" title="Play/pause source"><span id="transportIcon">▶</span></button><button class="button subdued" id="playSelected">▶ Selected chop</button><span class="transport-time" id="transportTime">00:00.00 <span>/ 00:00.00</span></span></div><div class="transport-right"><button class="button quiet" id="addAtPlayhead" title="Add a cut at the current playhead">+ Add cut</button><button class="button quiet" id="deleteCut" title="Remove the selected cut">Remove cut</button><div class="separator"></div><label class="mini-field">TEMPO <input type="number" id="tempo" min="40" max="240" value="90"></label></div></div>
+        </section>
+        <section class="editor-row" id="padWorkspace">
+          <div class="editing-panel">
+            <div class="section-line"><span class="section-num">02</span><h2>Find your chops</h2><span class="section-hint">IN A FEW CLICKS</span></div>
+            <div class="method-card"><div class="method-heading"><strong>Slice mode</strong><span>Find a starting point, then refine by ear.</span></div>
+            <div class="mode-tabs" role="group" aria-label="Slice mode">
+              <button class="mode" data-mode="grid" type="button">Equal grid</button>
+              <div class="mode-group">
+                <button class="mode" data-mode="transient" type="button">Sensitivity</button>
+                <div class="mode-inline-slider" title="Adjust auto-detect sensitivity in one-percent steps with the arrow keys.">
+                  <input id="sensitivity" aria-label="Transient sensitivity percentage" type="range" min="0" max="100" step="1" value="54">
+                  <output id="sensitivityText" for="sensitivity">54%</output>
+                </div>
+              </div>
+              <div class="mode-group">
+                <button class="mode active" data-mode="manual" type="button">Free Cut</button>
+                <div class="mode-inline-slider" title="Fine-tune cut position with arrow keys. Moving this slider never creates a cut.">
+                  <input id="manualCutPercent" aria-label="Manual cut position percentage" type="range" min="1" max="99" step="1" value="50">
+                  <output id="manualCutText" for="manualCutPercent">50%</output>
+                  <button type="button" id="placePercentCut" class="mode-cut-button" title="Place a cut at this percentage inside the selected chop">✂</button>
+                </div>
+              </div>
+            </div>
+              <div class="mode-detail hidden" id="gridDetail"><div><span class="setting-label">SLICES</span><div class="count-buttons"><button class="count" data-count="4">4</button><button class="count" data-count="8">8</button><button class="count active" data-count="16">16</button></div></div><button class="button outline" id="sliceNow">Generate cuts <span>↗</span></button></div>
+              <div class="mode-detail sensitivity-detail hidden" id="transientDetail"><div class="sensitivity-main"><div class="sensitivity-legend"><span>FEWER CUTS</span><span id="detectedCount" aria-live="polite">ADJUST TO FIND CHOPS</span><span>MORE CUTS</span></div></div></div>
+              <div class="mode-detail freecut-detail" id="manualDetail">
+                <div class="freecut-settings"><span class="manual-tip"><strong>Manual cuts only.</strong> Seek doesn't cut. Use Slicer on the waveform, or adjust the Free Cut percentage above with the arrow keys and click <strong>✂</strong> when you want to cut.</span></div>
+                <button class="button outline" id="clearCuts">Clear my cuts ↗</button>
+              </div>
+              <div class="focus-row"><div><strong id="focusHeading">ZOOM / NAVIGATE</strong><span id="regionText">Full song editing · zoom to any phrase</span></div><div class="focus-buttons"><button id="focus4">4 bars</button><button id="focus8">8 bars</button><button id="fullRange">Full song</button></div></div>
+            </div>
+            <div class="edit-card"><div class="edit-head"><strong>Selected chop</strong><span class="pill" id="selectedIndex">PAD 01</span></div><div class="range-row"><label>START <input type="number" id="startAt" min="0" step="0.01" value="0" disabled></label><label>END <input type="number" id="endAt" min="0" step="0.01" value="0" disabled></label></div><div class="range-stats"><span id="selectionLength">Duration 0.00s</span><span id="selectionNote">C1</span></div><div class="setting-row"><label class="slider-wrap">PITCH <input type="range" id="pitch" min="-12" max="12" value="0"><span id="pitchLabel">0 ST</span></label><label class="slider-wrap">EDGE FADE <input type="range" id="fade" min="0" max="40" value="8"><span id="fadeLabel">8 MS</span></label></div><div class="setting-bottom"><label class="toggle-inline"><input id="reversePad" type="checkbox"><span class="mini-check"></span> Reverse chop</label><button id="resetPad" class="link-button">Reset settings ↺</button></div><div class="copy-toolbar"><div class="copy-title">NON-DESTRUCTIVE CHOP VARIATIONS <span id="copyDescription">Make a full version and a shorter version without changing the original.</span></div><div class="copy-actions"><button type="button" id="duplicateChop" class="copy-button">⧉ Duplicate chop</button><button type="button" id="splitChop" class="copy-button secondary">✂ Split 50/50</button><button type="button" id="splitAtPlayhead" class="copy-button secondary">Split at playhead</button><button type="button" id="makeHalfChop" class="copy-button secondary" title="Trim only this duplicate to its first half, leaving the original intact">Keep first half of copy</button></div></div></div>
+            <div class="tip-card"><span class="tip-icon">✦</span><div><strong>Chop by ear</strong><p>Use Seek to find a sound. Switch on Slicer to click exactly where you want a cut. Grab and drag the markers, including the gold INTRO and OUTRO endpoints, to refine the chops.</p></div></div>
+          </div>
+          <div class="pads-panel">
+            <div class="section-line"><span class="section-num">03</span><h2>Play the pads</h2><span class="section-hint">16-PAD BANK · C1 TO D#2</span></div>
+            <div class="pad-topline"><div class="pad-bank-name"><span class="bank-icon">▦</span><span id="currentBankName"> BANK A</span> <span class="pad-sub" id="currentBankCount">1 / 16 LOADED</span></div><div class="pad-controls"><label class="toggle-inline"><input type="checkbox" id="mono" checked><span class="mini-check"></span> Mono choke</label><button id="midiConnect" class="button midi">◉ MIDI controller</button></div></div>
+            <div class="bank-selector"><div class="bank-tabs" id="bankTabs" role="group" aria-label="Pad banks"></div><button type="button" id="addBank" class="bank-create">+ New bank</button><button type="button" id="clearPad" class="bank-clear" title="Leave this pad empty; sounds remain in the Chop Library">Clear selected pad</button><span class="bank-drag-hint">Grab <strong>⠿</strong> to swap or move pads · Hover over another bank to move across banks</span></div>
+            <div class="pad-preview" id="padPreview">
+              <div class="pad-preview-head">
+                <div><span class="pad-preview-kicker">PAD / TRACK VIEWER</span><strong id="padPreviewTitle">Choose a pad to see its place in the song</strong></div>
+                <div class="pad-preview-actions"><span id="padPreviewRange" class="pad-preview-range">No chop selected</span><label class="pad-follow"><input type="checkbox" id="followPad" checked> Follow pads</label><button id="showOnTrack" class="bank-create" type="button">View on track</button></div>
+              </div>
+              <canvas id="padFocusWave" class="pad-preview-wave" aria-label="Detailed waveform of selected chop with draggable start and end handles" title="Drag the left or right green handle to adjust the chop start or end"></canvas>
+              <canvas id="padTrackOverview" class="pad-preview-overview" aria-label="Whole song overview with selected chop start and end handles" title="Drag the selected chop's start or end handle; click to navigate the song"></canvas>
+              <span class="pad-edit-hint">Drag the <strong>START</strong> or <strong>END</strong> handles to trim this chop · Two-finger swipe the main track to move through the song</span>
+            </div>
+            <div id="pads" class="pads" aria-label="Sixteen playable audio chop pads"></div>
+            <div class="organizer-wrap"><div class="organizer-heading"><div><strong>PAD ORGANIZER</strong><span>Drag the grip between any two slots to move or swap chops across banks.</span></div><button type="button" class="bank-create" id="toggleOrganizer" aria-expanded="true">Hide organizer</button></div><div id="organizerBanks" class="organizer-banks"></div></div>
+            <div class="pad-footer"><span>PLAY WITH YOUR KEYBOARD</span><div class="keyboard-keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd><kbd>R</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd><kbd>Z</kbd><kbd>X</kbd><kbd>C</kbd><kbd>V</kbd></div><span>CLICK A PAD TO HEAR IT</span></div>
+            <div class="midi-status" id="midiStatus">Connect a MIDI device to map its pads, or use your keyboard now.</div>
+          </div>
+        </section>
+        <section class="arranger-workspace" id="arrangerWorkspace" aria-label="Multi-track chop arranger"><div class="section-line"><span class="section-num">04</span><h2>Arrangement timeline</h2><span class="section-hint">AUTO-SPACED CHOPS · EDIT FREELY</span></div><div class="integration-placeholder"><div><span class="integration-kicker">NON-DESTRUCTIVE SEQUENCER</span><h3>All your chops ready to arrange</h3><p>Each saved chop appears below as an individual clip with room between it and the next. Move, split, duplicate, delete or rearrange freely; the original source stays intact.</p></div><span class="integration-chip">AUTO-FILL ROW</span></div></section>
+        <section class="device-workspace" id="controllerWorkspace" aria-label="DJ controller and Rekordbox connection"><div class="integration-placeholder"><div><span class="integration-kicker">05 · HARDWARE / CONNECTIONS</span><h3>Controllers & pad preview</h3><p>Pick your controller or keyboard profile, preview the pad layout and connect actual MIDI inputs.</p></div><span class="integration-chip">MIDI SETUP</span></div></section>
+        <section class="vault-panel" id="vaultWorkspace">
+          <div class="section-line"><span class="section-num">06</span><h2>Chop Library</h2><span class="section-hint" id="vaultTotal">ALL YOUR CHOPS · NO 16 CHOP LIMIT</span></div>
+          <div class="vault-toolbar">
+            <div><strong>Keep every idea.</strong><span>Preview, remove or restore any chop. Choose a bank and pad to assign sounds.</span></div>
+            <div class="vault-target">
+              <label>BANK<select id="vaultTargetBank" aria-label="Target bank for assigning chops"></select></label>
+              <label>PAD<select id="vaultTargetPad" aria-label="Target pad for assigning chops"></select></label>
+              <button type="button" id="vaultNewBank" class="bank-create" title="Add another 16-pad bank">+ Bank</button>
+              <label class="vault-option"><input type="checkbox" id="showRemoved"> Show removed</label>
+            </div>
+          </div>
+          <div id="vaultItems" class="vault-items"></div>
+        </section>
+        <section class="export-card">
+          <div><span class="section-num">07</span><div><h2>Take it to Ableton</h2><p>Export every active chop as WAV, plus bank folders with their pad positions and MIDI/SFZ maps. Each 16-pad bank can be loaded separately into Ableton Drum Rack.</p></div></div><button class="button primary large" id="exportBottom">⇩ &nbsp; Export chop kit</button>
+        </section>
+        <footer class="footer"><span>CHOPROOM · A LOCAL SAMPLER WORKSPACE</span><span>NO CLOUD • NO UPLOADS • NO CHANGES TO YOUR ORIGINALS</span></footer>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <input id="sessionInput" type="file" accept=".json" hidden>
+  <script src="./export.js" defer></script>
+  <script src="./slicing.js" defer></script>
+  <script src="./marker_controls.js" defer></script>
+  <script src="./track_view.js" defer></script>
+  <script src="./chop_collection.js" defer></script>
+  <script src="./chop_variants.js" defer></script>
+  <script src="./arranger_engine.js" defer></script>
+  <script src="./arranger_ui.js" defer></script>
+  <script src="./device_panel.js" defer></script>
+  <script src="./app.js" defer></script>
+  <script src="./theme.js" defer></script>
+  <script src="./navigation.js" defer></script>
+  <script src="./ableton_timeline_export.js" defer></script>
+</body>
+</html>

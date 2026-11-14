@@ -1,0 +1,110 @@
+'use strict';
+const assert=require('node:assert/strict');
+const E=require('./arranger_engine.js');
+const initial=E.create();
+const added=E.addClip(initial,0,{start:3,end:5,label:'Hook'},{start:10});
+assert.equal(initial.clips.length,0,'source snapshot remains unchanged');
+assert.equal(added.clips.length,1);
+assert.deepEqual([added.clips[0].sourceStart,added.clips[0].sourceEnd,added.clips[0].start],[3,5,10]);
+const id=added.clips[0].id;
+const moved=E.moveClip(added,id,18,'t2',90);
+assert.equal(moved.clips[0].start,18);
+assert.equal(moved.clips[0].trackId,'t2');
+assert.equal(added.clips[0].start,10);
+const left=E.trimClip(moved,id,'left',.5);
+assert.equal(left.clips[0].start,18.5);
+assert.equal(left.clips[0].sourceStart,3.5);
+assert.equal(left.clips[0].sourceEnd,5);
+const right=E.trimClip(left,id,'right',-.3);
+assert.ok(Math.abs(right.clips[0].sourceEnd-4.7)<1e-9);
+assert.ok(E.trimClip(right,id,'left',100).clips[0].sourceEnd-E.trimClip(right,id,'left',100).clips[0].sourceStart>=E.MIN-1e-9);
+const dup=E.duplicateClip(right,id);
+assert.equal(dup.clips.length,2);
+assert.notEqual(dup.clips[0].id,dup.clips[1].id);
+assert.equal(dup.clips[0].start+dup.clips[0].sourceEnd-dup.clips[0].sourceStart,dup.clips[1].start);
+const gone=E.deleteClip(dup,id);
+assert.equal(gone.clips.length,1);
+assert.equal(dup.clips.length,2);
+const track=E.setTrack(E.addTrack(gone,'Vocals'),'t3',{solo:true});
+assert.equal(track.tracks.length,3);
+assert.equal(track.tracks[2].solo,true);
+assert.equal(E.audible(track,track.clips[0]),false);
+const snapped=E.setView(added,{snap:'bar'});
+assert.equal(E.moveClip(snapped,id,3.9,'t1',120).clips[0].start,4);
+const normalized=E.normalize({...dup,clips:[...dup.clips,{id:'bad',trackId:'t1',ref:0,sourceStart:8,sourceEnd:4,start:0}]});
+assert.equal(normalized.clips.length,2);
+assert.deepEqual(E.normalize(JSON.parse(JSON.stringify(normalized))),normalized);
+const variant=E.addClip(initial,'v2',{start:1,end:2,label:'Variant'});
+assert.equal(variant.clips[0].ref,'v2');
+const invalid=E.addClip(initial,-1,{start:1,end:2});
+assert.equal(invalid.clips.length,0);
+const capped=E.trimClip(left,id,'right',100,90,5.25);
+assert.equal(capped.clips[0].sourceEnd,5.25,'right trim cannot exceed decoded source');
+const cappedNegative=E.trimClip(capped,id,'right',-300,90,5.25);
+assert.ok(cappedNegative.clips[0].sourceEnd-cappedNegative.clips[0].sourceStart>=E.MIN-1e-9);
+const noChange=E.trimClip(left,id,'right',0,90,5);
+assert.equal(noChange.clips[0].sourceEnd,5);
+const splitSource=E.addClip(E.create(),0,{start:12,end:18,label:'Hook'},{start:8,trackId:'t2'});
+const splitId=splitSource.clips[0].id;
+const split=E.splitClip(splitSource,splitId,10.5);
+assert.equal(split.clips.length,2);
+assert.deepEqual(split.clips.map(c=>[c.start,c.sourceStart,c.sourceEnd,c.trackId]),[
+ [8,12,14.5,'t2'],
+ [10.5,14.5,18,'t2']
+]);
+assert.equal(split.selected,split.clips[1].id);
+assert.equal(splitSource.clips.length,1,'splitting preserves the source arrangement');
+assert.equal(E.duration(split),14);
+assert.equal(E.splitClip(splitSource,splitId,8).clips.length,1,'cannot split at left edge');
+assert.equal(E.splitClip(splitSource,splitId,14).clips.length,1,'cannot split at right edge');
+assert.equal(E.splitClip(splitSource,splitId,NaN).clips.length,1);
+const rightOnly=E.removeClip(split,split.clips[0].id);
+assert.equal(rightOnly.clips.length,1);
+assert.equal(rightOnly.clips[0].sourceStart,14.5);
+const leftOnly=E.removeClip(split,split.clips[1].id);
+assert.equal(leftOnly.clips.length,1);
+assert.equal(leftOnly.clips[0].sourceEnd,14.5);
+const splitCopy=E.duplicateClip(split,split.clips[1].id);
+assert.equal(splitCopy.clips.length,3);
+assert.equal(splitCopy.clips[2].start,14);
+assert.equal(splitCopy.clips[1].start,10.5,'duplicating does not move original');
+const dropTime=E.snapSeconds(9.2,'beat',120);
+const dropped=E.addClip(splitSource,1,{start:0,end:1,label:'Dropped'},{start:dropTime,trackId:'t2'});
+assert.equal(dropped.clips[1].start,9);
+assert.equal(dropped.clips[1].trackId,'t2');
+assert.deepEqual(E.normalize(JSON.parse(JSON.stringify(split))),split,'split snapshots restore identically');
+// An AUTO lane receives complete source chops sequentially with a visible
+// gap. A manual lane remains empty, ready for hooks/extra layers.
+const rows=[
+ {ref:0,start:0,end:1.1,label:'First vocal'},
+ {ref:1,start:1.1,end:2.2,label:'Second vocal'},
+ {ref:2,start:2.2,end:3.7,label:'Third vocal'},
+];
+const filled=E.populateFromChops(E.create(),rows,.45);
+assert.equal(filled.clips.length,3,'all source chops auto-fill the timeline');
+assert.equal(filled.tracks[0].auto,true);
+assert.equal(filled.tracks[1].auto,false);
+assert(filled.clips.every(c=>c.trackId==='t1'));
+assert.equal(filled.clips[0].start,0);
+assert(Math.abs(filled.clips[1].start-1.55)<1e-8,'first gap is present');
+assert(Math.abs(filled.clips[2].start-3.10)<1e-8,'second gap is present');
+assert.deepEqual(E.populateFromChops(filled,rows,.45),filled,'no duplicates when syncing unchanged source');
+const movedAuto=E.moveClip(filled,filled.clips[1].id,9,'t1',90);
+const withFourth=E.populateFromChops(movedAuto,[...rows,{ref:3,start:3.7,end:4.3,label:'New cut'}],.45);
+assert.equal(withFourth.clips.length,4);
+assert.equal(withFourth.clips[1].start,9,'manual position is never rewritten by new chops');
+assert(withFourth.clips[3].start>=10.5,'new chops append after user-positioned clips');
+const deletedAuto=E.deleteClip(withFourth,withFourth.clips[0].id);
+const syncedAfterDelete=E.populateFromChops(deletedAuto,[...rows,{ref:3,start:3.7,end:4.3,label:'New cut'}]);
+assert.equal(syncedAfterDelete.clips.length,3,'deleting an automatic clip is respected');
+const autoOff=E.setTrack(filled,'t1',{auto:false});
+assert.equal(E.populateFromChops(autoOff,[...rows,{ref:3,start:3.7,end:4.3}]).clips.length,3,
+  'disabled auto row does not add clips');
+const additionalAuto=E.setTrack(filled,'t2',{auto:true});
+const bothAuto=E.populateFromChops(additionalAuto,rows);
+assert.equal(bothAuto.clips.length,6,'user can independently toggle auto-fill for another lane');
+assert.deepEqual(E.normalize(JSON.parse(JSON.stringify(bothAuto))),bothAuto);
+const reset=E.resetAutoRows(withFourth);
+assert.equal(reset.clips.length,0,'explicit rebuild resets only AUTO rows');
+assert.equal(E.populateFromChops(reset,rows).clips.length,3);
+console.log('Arranger data tests passed: move, trim, split, duplicate, delete, solo, quantize, AUTO spaced seeding, idempotency, manual preservation, toggles and restore');

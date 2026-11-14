@@ -1,0 +1,67 @@
+/* CHOPROOM arrangement skin. The JS injects basic positioning rules; this
+ * stylesheet has higher specificity for both themes and accessible cues. */
+.ar-root{margin:16px 0 0;border-radius:12px!important;border:1px solid var(--border)!important;background:var(--surface)!important;color:var(--ink)!important;box-shadow:var(--shadow);font-family:var(--sans)!important}
+.ar-root .ar-toolbar,.ar-root .ar-footer{background:var(--surface-alt);color:var(--ink);padding:13px 14px;gap:8px}
+.ar-root .ar-toolbar{border-bottom:1px solid var(--border)}
+.ar-root .ar-tray{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 14px 15px}
+.ar-root .ar-tray-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:10px}
+.ar-root .ar-tray-copy{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ar-root .ar-tray-copy strong{font-size:10px;letter-spacing:1px;font-weight:800;color:var(--blue)}
+.ar-root .ar-tray-copy span{font-size:11px;color:var(--muted)}
+.ar-root .ar-tray-controls label{font:700 10px var(--mono,monospace);color:var(--muted);white-space:nowrap}
+.ar-root .ar-tray-controls select{margin-left:7px;background:var(--surface-alt);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--ink)}
+.ar-root .ar-tray-scroll{overflow:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.ar-root .ar-tray-grid{display:grid;grid-template-columns:repeat(8,minmax(83px,1fr));gap:6px;min-width:720px}
+.ar-root .ar-tray-item{position:relative;min-width:0;min-height:46px;border:1px solid var(--border);border-radius:7px;background:var(--surface-alt);color:var(--ink);padding:7px 8px;text-align:left;display:grid;grid-template-columns:1fr auto;gap:4px;align-content:center;cursor:grab}
+.ar-root .ar-tray-item:not(:disabled):hover{background:var(--pale-accent);border-color:var(--blue)}
+.ar-root .ar-tray-item:active{cursor:grabbing}
+.ar-root .ar-tray-item:disabled{opacity:.43;cursor:not-allowed;border-style:dashed}
+.ar-root .ar-tray-item:nth-child(4n+1){border-left:3px solid #54aaca}
+.ar-root .ar-tray-item:nth-child(4n+2){border-left:3px solid #ae87d8}
+.ar-root .ar-tray-item:nth-child(4n+3){border-left:3px solid #e0ad69}
+.ar-root .ar-tray-item:nth-child(4n+4){border-left:3px solid #71bd9c}
+.ar-root .ar-tray-num{font:700 10px var(--mono,monospace);color:var(--muted)}
+.ar-root .ar-tray-label{font-size:11px;font-weight:650;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;grid-column:1/span 2}
+.ar-root .ar-tray-duration{font:500 9px var(--mono,monospace);color:var(--muted);grid-row:1;grid-column:2;text-align:right}
+.ar-root .ar-tray-dragging .ar-tray-item:not(:disabled){border-style:dashed}
+.ar-root .ar-footer{border-top:1px solid var(--border)}
+.ar-root .ar-toolbar strong{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--soft)}
+.ar-root .ar-toolbar button,.ar-root .ar-footer button{background:var(--surface);color:var(--ink);border-color:var(--border);padding:8px 11px;border-radius:7px;font-weight:650;transition:background .1s ease}
+.ar-root .ar-toolbar button:hover:not(:disabled),.ar-root .ar-footer button:hover:not(:disabled){background:var(--surface-hover)}
+.ar-root .ar-toolbar .ar-play{background:#adf07e!important;color:#17271b!important;border-color:#adf07e!important}
+.ar-root .ar-toolbar label{font-size:11px;color:var(--muted)}
+.ar-root .ar-toolbar select{background:var(--surface);color:var(--ink);border-color:var(--border);margin-left:7px;border-radius:6px}
+.ar-root .ar-names{background:var(--surface-alt);border-color:var(--border)}
+.ar-root .ar-name{border-color:var(--border);color:var(--ink);background:var(--surface)}
+.ar-root .ar-name:nth-child(even){background:var(--surface-alt)}
+.ar-root .ar-name input{color:var(--ink);font-weight:680}
+.ar-root .ar-name button{color:var(--muted);border-color:var(--border);background:var(--surface-alt)}
+.ar-root .ar-name button[aria-pressed="true"]{color:#132618;background:#a7ed81}
+.ar-root .ar-ruler{background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.ar-root .ar-tick{color:var(--muted);border-color:var(--border)}
+.ar-root .ar-scroll{background:var(--wave-bg);scrollbar-color:var(--border) var(--surface-alt)}
+.ar-root .ar-lane{border-color:var(--border);background-image:linear-gradient(to right,var(--line) 1px,transparent 1px)}
+.ar-root .ar-lane.ar-drop-target{background-color:rgba(105,179,247,.14)!important;box-shadow:inset 0 0 0 2px var(--blue)}
+.ar-root .ar-area>.ar-lane:nth-child(2n){background-color:rgba(91,144,191,.035)}
+.ar-root .ar-area>.ar-lane:nth-child(2n+1){background-color:rgba(158,112,191,.03)}
+.ar-root .ar-source{background:var(--surface-alt)!important;border-bottom:2px solid var(--border)}
+.ar-root .ar-clip{color:#e8f7ff;box-shadow:inset 0 -1px 0 #ffffff11,0 2px 7px #0000001b;transition:box-shadow .11s ease}
+.ar-root .ar-area>.ar-lane:nth-child(2) .ar-clip{background:#336b90;border-color:#74c2ed}
+.ar-root .ar-area>.ar-lane:nth-child(3) .ar-clip{background:#66508b;border-color:#c29fe4}
+.ar-root .ar-area>.ar-lane:nth-child(4) .ar-clip{background:#33796d;border-color:#8ee3d3}
+.ar-root .ar-area>.ar-lane:nth-child(5) .ar-clip{background:#836036;border-color:#f4c57a}
+.ar-root .ar-area>.ar-lane:nth-child(n+6) .ar-clip{background:#526d88;border-color:#97c5dc}
+.ar-root .ar-clip:hover{box-shadow:0 0 0 2px #ffffff30,0 3px 10px #00000024}
+.ar-root .ar-clip[aria-selected="true"]{outline:3px solid #b6f47e;outline-offset:1px}
+.ar-root .ar-title{font-weight:730;font-size:11px;text-shadow:0 1px 3px #0009}
+.ar-root .ar-handle{background:#ffffff30}
+.ar-root .ar-left{border-left:2px solid #fcf9c7}
+.ar-root .ar-right{border-right:2px solid #fcf9c7}
+.ar-root .ar-head{border-color:#edaa68}
+.ar-root .ar-name button,.ar-root .ar-clip{touch-action:none}
+.ar-root .ar-scroll:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+:root[data-theme="light"] .ar-root .ar-clip{box-shadow:inset 0 -1px 0 #ffffff48,0 2px 5px #52647d17}
+:root[data-theme="light"] .ar-root .ar-tick{color:#5d7089}
+:root[data-theme="light"] .ar-root .ar-source{background:#edf4f7!important}
+:root[data-theme="light"] .ar-root .ar-clip[aria-selected="true"]{outline-color:#3b8d45}
+@media(max-width:720px){.ar-root .ar-toolbar{justify-content:flex-start}.ar-root .ar-toolbar strong{width:100%}.ar-root .ar-main{grid-template-columns:100px minmax(0,1fr)}.ar-root .ar-name input{font-size:11px}.ar-root .ar-footer{flex-wrap:wrap}.ar-root .ar-toolbar button{padding:7px 9px;font-size:11px}}

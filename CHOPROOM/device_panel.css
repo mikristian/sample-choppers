@@ -1,0 +1,60 @@
+.device-workspace{border:1px solid var(--border,#2d3834);border-radius:14px;background:var(--surface,#151c1a);color:var(--ink,#e6efdf);margin:18px 0 20px;overflow:hidden}
+.device-head{padding:21px 22px 17px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border,#2d3834)}
+.device-kicker{font:700 10px/1.4 var(--mono,monospace);letter-spacing:1.3px;color:var(--blue,#8dec9f)}
+.device-heading{font-size:20px;font-weight:750;letter-spacing:-.6px;margin:5px 0 6px}
+.device-intro{font-size:12px;line-height:1.6;color:var(--muted,#abbbae)}
+.device-head-actions,.device-rekordbox-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.device-soft-btn,.device-bright-btn{border-radius:8px;padding:9px 12px;font-size:12px;font-weight:670;border:1px solid var(--border,#425148);white-space:nowrap}
+.device-soft-btn{color:var(--ink,#e6efdf);background:var(--surface-alt,#27342e)}
+.device-bright-btn{color:#102319;background:#b2ef88;border-color:#b2ef88}
+.device-soft-btn:hover:not(:disabled),.device-bright-btn:hover:not(:disabled){filter:brightness(1.07)}
+.device-body{padding:18px 22px;display:grid;grid-template-columns:minmax(220px,1fr) minmax(250px,1fr);gap:20px}
+.device-profile-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.device-tab{min-height:42px;border:1px solid var(--border,#425148);border-radius:9px;background:var(--surface-alt,#27342e);font-weight:700;font-size:12px;padding:8px 10px;text-align:left;color:var(--ink,#e6efdf)}
+.device-tab.active{border-color:var(--blue,#9cf29c);background:var(--pale-accent,#284c36);box-shadow:inset 0 0 0 1px var(--blue,#9cf29c)}
+.device-profile-helper{min-height:64px;font-size:12px;line-height:1.7;color:var(--muted,#abbbae);margin:12px 0}
+.device-live-state{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink,#e6efdf);min-height:29px}
+.device-status-light{width:8px;height:8px;border-radius:50%;flex:none;background:#c4a788;box-shadow:0 0 0 3px #c4a78822}
+.device-status-light.connected{background:#85e9a4;box-shadow:0 0 0 3px #85e9a422}
+.device-input-row{margin-top:9px;display:flex;flex-direction:column;gap:8px}
+.device-input-label{font:700 10px var(--mono,monospace);letter-spacing:.8px;color:var(--muted,#abbbae)}
+.device-input-select{display:block;width:100%;margin-top:7px;border:1px solid var(--border,#425148);border-radius:7px;background:var(--surface-alt,#27342e);color:var(--ink,#e6efdf);padding:10px 11px}
+.device-app-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:13px}
+.device-app-status{flex:1;font-size:10px;line-height:1.5;color:var(--muted,#abbbae)}
+.device-preview-box{padding:12px;background:var(--surface-alt,#27342e);border-radius:11px;border:1px solid var(--border,#425148)}
+.device-pad-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font:700 10px var(--mono,monospace);letter-spacing:.6px;color:var(--muted,#abbbae)}
+.device-preview-current{font-size:11px;color:var(--blue,#9cf29c)}
+.device-housing{border-radius:12px;background:#151b21;border:1px solid #3b4a53;padding:12px}
+.device-screens{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:0 1px 12px}
+.device-small-screen{min-height:29px;border-radius:5px;border:1px solid #395069;background:linear-gradient(135deg,#163f53,#112433);display:flex;align-items:center;justify-content:center;font:700 10px var(--mono,monospace);letter-spacing:.7px;color:#a9ddec}
+.device-pad-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.device-preview-pad{position:relative;min-width:0;min-height:64px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;background:#323f40;border:1px solid #556768;border-radius:7px;padding:7px;color:#dfeee5;overflow:hidden}
+.device-preview-pad:nth-child(4n+1){border-bottom:2px solid #b5e893}
+.device-preview-pad:nth-child(4n+2){border-bottom:2px solid #83c5e6}
+.device-preview-pad:nth-child(4n+3){border-bottom:2px solid #eac590}
+.device-preview-pad:nth-child(4n+4){border-bottom:2px solid #ad9ee2}
+.device-preview-pad.assigned{background:#364740}
+.device-preview-pad.selected{border-color:#d2f8ab;background:#4b5d47;box-shadow:0 0 0 2px #bdef7d}
+.device-preview-pad.triggered{animation:device-hit .22s ease-out}
+@keyframes device-hit{0%{background:#c2fa92;color:#17301e}100%{background:#364740;color:#dfeee5}}
+.device-preview-pad-note{font:800 9px var(--mono,monospace);color:#ccefc2}
+.device-preview-pad-name{font-size:10px;line-height:1.2;font-weight:660;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.device-preview-pad-key{position:absolute;right:7px;top:6px;font:700 9px var(--mono,monospace);color:#91aaa0}
+.device-pad-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.device-pad-selected{font-size:10px;max-width:56%;color:var(--muted,#abbbae);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.device-tip{font-size:10px;line-height:1.6;color:var(--muted,#abbbae);margin:8px 4px 0}
+.device-workspace[data-profile="flx4"] .device-housing{background:#1c252b}
+.device-workspace[data-profile="flx4"] .device-screens{grid-template-columns:repeat(2,1fr)}
+.device-workspace[data-profile="flx4"] .device-preview-pad:nth-child(-n+8){border-bottom-color:#87dcee}
+.device-workspace[data-profile="flx4"] .device-preview-pad:nth-child(n+9){border-bottom-color:#e8ad80}
+.device-workspace[data-profile="akai"] .device-housing{background:#242021}
+.device-workspace[data-profile="akai"] .device-preview-pad{border-radius:4px}
+.device-workspace[data-profile="keyboard"] .device-screens{display:none}
+.device-rekordbox{padding:17px 22px;display:flex;gap:14px;justify-content:space-between;align-items:center;border-top:1px solid var(--border,#425148)}
+.device-rekordbox-text{display:flex;flex-direction:column;gap:5px}
+.device-rekordbox-text strong{font-size:14px}
+.device-rekordbox-status{font-size:11px;line-height:1.6;color:var(--muted,#abbbae)}
+.device-detail{font-size:11px;line-height:1.5;color:var(--muted,#abbbae);padding:0 22px 16px}
+.device-detail[data-status="warning"]{color:#b98a75}
+@media(max-width:880px){.device-body{grid-template-columns:1fr}.device-preview-box{max-width:520px}.device-head{flex-wrap:wrap}.device-rekordbox{flex-wrap:wrap}}
+@media(max-width:550px){.device-head,.device-body,.device-rekordbox{padding-left:13px;padding-right:13px}.device-pad-grid{gap:4px}.device-preview-pad{min-height:53px;padding:5px}.device-pad-footer{flex-wrap:wrap}.device-pad-selected{max-width:none}.device-detail{padding-left:13px;padding-right:13px}}
