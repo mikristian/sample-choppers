@@ -74,4 +74,18 @@ Both additional images are actual November 14, 2026 headless Chrome screenshots 
 
 ### Native sampler, ASR and vintage interfaces
 
-`NativeSampler` and `ASR10Sampler` contain JUCE/C++ editor sources; `VintageSamplerLab` contains Python UI sources. A faithful screenshot of their actual boards requires building and launching each native interface with its proper runtime dependencies. No verified redistributable native-board capture was available during this pass, so this gallery does not substitute a fabricated board screenshot.
+`NativeSampler` and `ASR10Sampler` contain JUCE/C++ editor sources; `VintageSamplerLab` contains Python UI source. These additional UI references come from their local development history, **not** a new clean build from this published checkout. They help reviewers see the intended sampling interfaces without downloading private audio.
+
+**Vintage Sampler Lab: actual running native app screenshot, November 14, 2026.** The 16 RGB pads, sample/edit controls and mixer are visible. Sample filenames, waveforms and pad content were deliberately redacted; the modified screenshot is not presented as an unedited capture.
+
+![Native Vintage Sampler Lab performance board with private audio content redacted](docs/screenshots/vintage-native-board-redacted.png)
+
+**ASR-10 Sampler Lab: historic source-project UI capture from November 2026**, showing the interface, LCD, transport and playable-style keyboard in an unloaded/default state. This is a screenshot of the emulator UI, not a verified connected sampler, physical hardware or a clean native rebuild from this release.
+
+![ASR-10 Sampler Lab interface showing transport controls, LCD and keyboard](docs/screenshots/asr10-native-keyboard-ui.png)
+
+**Vintage board concept artwork:** separately labeled illustration from the original project assets, not an application screenshot or evidence of a working plugin.
+
+![Vintage Sampler Lab 16-pad concept artwork, not a screenshot](docs/screenshots/vintage-board-design-illustration.png)
+
+See [screenshot provenance and privacy notes](docs/screenshots/README.md). Native plugin compilation, DAW hosting and hardware audio routing remain independent verification steps.
