@@ -7,11 +7,14 @@ A collection of source experiments for music sampling, slicing, sequencing and p
 | Folder | Technology | Scope |
 | --- | --- | --- |
 | [`CHOPROOM/`](CHOPROOM/) | Browser HTML, CSS and JavaScript; optional Python device bridge | Source audio editor, slicing markers, pad banks, arrangements, local session tools and export logic. |
+| [`MaschineLab3D/`](MaschineLab3D/) | Three.js, Web Audio and Web MIDI | Original interactive 3D MASCHINE LAB workstation, modeled 16-pad controller, step sequencer, optional keyboard and synthetic demo instruments. |
 | [`NativeSampler/`](NativeSampler/) | JUCE 8, CMake, C++ | Native sampler engine, plugin interface, effects, MIDI/FLX4 bridge experiments and engine tests. |
 | [`ASR10Sampler/`](ASR10Sampler/) | JUCE 8, CMake, C++ | ASR-style instrument/plugin experiments including settings and bank/clip test suites. |
 | [`VintageSamplerLab/`](VintageSamplerLab/) | Python | Legacy sampler, pad sequencer, keyzones and UI experiments. |
 
 Each component is independent. There is no unified installer or evidence that all source trees reproduce locally installed applications.
+
+**MASCHINE LAB 2D is also part of the project's history:** the independently installed macOS standalone/AU/VST3 sampler has a 16-RGB-pad performance board and two waveform screens. See its *real native UI screenshot* in the gallery below. Its current installed program contains private, hardcoded song-library integrations, so this public snapshot does not redistribute the native 2D binary or claim its complete source is reproducible from the included 3D browser files.
 
 ## Run the browser editor
 
@@ -22,6 +25,8 @@ python3 -m http.server 8080
 ```
 
 Choose your own browser-supported audio; the source release has no demonstration songs. See [CHOPROOM's README](CHOPROOM/README.md) for details about slicing, arrangements and export limitations.
+
+**To run the different MASCHINE LAB 3D browser emulator**, `cd MaschineLab3D && python3 -m http.server 11988 --bind 127.0.0.1`, then open `http://127.0.0.1:11988/`. This one has synthesized demo sounds but no distributed recorded audio. See [its own README](MaschineLab3D/README.md).
 
 ## Build native projects
 
@@ -59,6 +64,20 @@ No personal recordings, copyrighted music, sample libraries, audio stems, artwor
 See [third-party notices](THIRD_PARTY_NOTICES.md) for dependencies and attribution.
 
 ## UI preview
+
+### MASCHINE LAB, the missing native and 3D sampling workstations
+
+**Native MASCHINE LAB 2D, authentic installed Mac app captured November 14, 2026.** It is distinct from the Vintage and ASR sampler projects. The selected private audio waveform, sample names and session data have been visibly redacted while retaining the actual dual-display, knob, transport, and 16-pad layout. No screenshot implies that this public 3D source reproduces the native app.
+
+![Actual MASCHINE LAB 2D native macOS sampler application with redacted private audio and 16 RGB performance pads](docs/screenshots/maschine-lab-native-2d-redacted.png)
+
+**Original 3D MASCHINE LAB browser application (source included here):** The source-owned 3D controller model and its optional LX49-style keyboard were captured in actual Chrome sessions with synthetic demo sounds, not user tracks.
+
+| 3D modeled sampler | 3D sampler with optional modeled keyboard |
+| --- | --- |
+| ![Authentic MASCHINE LAB interactive 3D browser controller](docs/screenshots/maschine-lab-3d-browser.png) | ![Authentic MASCHINE LAB browser 3D controller and optional LX49-style keyboard](docs/screenshots/maschine-lab-3d-lx49-browser.png) |
+
+The 3D browser source is under [`MaschineLab3D/`](MaschineLab3D/). It uses locally vendored MIT-licensed Three.js; no OEM firmware, licensed manufacturer photos, or private bank audio are included. The native JUCE 2D app still requires private-song-agnostic source cleanup and a reproducible native build before it can be described as a complete public source release.
 
 ![CHOPROOM source editor with no audio loaded](docs/screenshots/choproom-empty-state.png)
 

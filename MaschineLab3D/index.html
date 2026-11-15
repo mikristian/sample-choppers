@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MASCHINE LAB — 3D Sampling Workstation</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <div class="brandblock"><div class="brandmark"><span></span><span></span><span></span><span></span></div><div><div class="eyebrow">VIRTUAL INSTRUMENT STUDIO</div><div class="brandname">MASCHINE<span>LAB</span><small> / 3D</small></div></div></div>
+      <div class="header-middle"><span class="status-dot"></span> BROWSER AUDIO ENGINE <span class="header-divider"></span> <span id="midiStatus">MIDI: NOT CONNECTED</span></div>
+      <div class="header-right"><button class="soft-button" id="saveProject">Save project</button><button class="soft-button" id="exportProject">Export MIDI</button><button class="head-accent" id="audioEnable">ENABLE AUDIO <span>↗</span></button></div>
+    </header>
+    <div class="workspace">
+      <nav class="left-rail">
+        <div class="rail-label">DEVICES</div>
+        <button class="rail-item selected" id="maschineTab"><span class="rail-glyph four">▦</span><span>MASCHINE+</span></button>
+        <button class="rail-item" id="keyboardTab"><span class="rail-glyph">♬</span><span>Impact LX49</span></button>
+        <div class="rail-separator"></div>
+        <div class="rail-label">LIBRARY</div>
+        <button class="rail-item" id="importSamplesBtn"><span class="rail-glyph">＋</span><span>Import samples</span></button>
+        <button class="rail-item" id="importKitBtn"><span class="rail-glyph">▤</span><span>Import 16-pad kit</span></button>
+        <button class="rail-item" id="demoKitBtn"><span class="rail-glyph">◉</span><span>Reset demo kit</span></button>
+        <div class="rail-fill"></div>
+        <div class="rail-tip"><span class="rail-tip-title">CONTROLS</span><span>Drag to orbit · Scroll to zoom · Click pads to play. <b>1–4 / Q–R / A–F / Z–V</b> trigger pads.</span></div>
+        <div class="rail-build">ORIGINAL STUDY MODEL · v0.1</div>
+      </nav>
+      <main class="main-column">
+        <section class="view-area" id="dropZone">
+          <div class="stage-head"><div><div class="eyebrow">INTERACTIVE HARDWARE</div><h1 id="deviceTitle">MASCHINE <span>+</span></h1><p id="deviceSubtitle">3D production controller · 16 expressive pads · dual displays</p></div><div class="stage-actions"><button class="stage-button active" id="perspectiveView">PERSPECTIVE</button><button class="stage-button" id="topView">TOP VIEW</button><button class="stage-button" id="fitView">FIT ↗</button></div></div>
+          <div class="webgl-wrap"><canvas id="threeCanvas" aria-label="Rotatable interactive 3D controller"></canvas><div class="hover-label" id="hoverLabel">DRAG TO ROTATE • CLICK TO PLAY</div><div class="device-footnote">Virtual interpretation based on published hardware dimensions — not a calibrated OEM scan.</div><div class="drop-overlay" id="dropOverlay">DROP WAV / MP3 FILES TO LOAD THE PADS</div></div>
+          <div class="view-bottom"><div class="lamp"><span class="status-dot"></span> ENGINE READY</div><div>MODEL <strong id="modelStatus">MASCHINE+ / 322 × 301 × 51 MM</strong></div><div>ACTIVE PAD <strong id="activePadDisplay">01 / KICK</strong></div><div class="kbd-switch"><label for="showKeyboard">SHOW LX49</label><input type="checkbox" id="showKeyboard"></div></div>
+        </section>
+        <section class="bottom-panel">
+          <div class="transport-bar"><div class="transport-title">PATTERN <span>01</span></div><button class="transport-btn play" id="playBtn" title="Play or pause">▶</button><button class="transport-btn" id="stopBtn" title="Stop">■</button><button class="transport-btn" id="recordBtn" title="Record hits into pattern">●</button><div class="transport-field"><label for="bpm">TEMPO</label><input id="bpm" type="number" min="40" max="240" value="124" /></div><div class="transport-field"><label for="swing">SWING</label><input id="swing" type="range" min="0" max="65" value="0"/><output id="swingValue">0%</output></div><div class="transport-field"><label for="volume">VOLUME</label><input id="volume" type="range" min="0" max="100" value="78" /></div><button class="quiet-action" id="clearBtn">CLEAR</button><button class="quiet-action" id="randomBtn">GENERATE</button><div class="beat-display" id="beatCounter">01.1.1</div></div>
+          <div class="sequencer-head"><div><div class="eyebrow">STEP SEQUENCER</div><h2>Pattern Editor <span>16 steps × 16 pads</span></h2></div><div class="seq-tools"><span>16TH NOTES</span><button id="pageOne" class="tiny active">1–16</button><button id="pageTwo" class="tiny">17–32</button></div></div>
+          <div class="sequencer-scroll"><div id="sequencer" class="sequencer"></div></div>
+        </section>
+      </main>
+      <aside class="inspector">
+        <div class="inspector-header"><div class="eyebrow">SOUND EDITOR</div><div class="inspector-hdr">PAD <span id="selectedPadNum">01</span><span class="pad-color" id="padColor"></span></div><div class="inspector-padname" id="padName">KICK 01</div></div>
+        <div class="inspector-tabs"><button class="inspector-tab active" data-tab="sample">SAMPLE</button><button class="inspector-tab" data-tab="shape">SHAPE</button><button class="inspector-tab" data-tab="mixer">MIXER</button></div>
+        <div id="sampleTab" class="tab-body"><div class="file-widget"><div class="panel-caption">SOURCE</div><div class="source-name" id="sourceName">SYNTHESIZED / KICK</div><div class="source-sub" id="sourceMeta">GENERATED IN BROWSER · NO SAMPLE NEEDED</div></div><canvas id="waveform" width="550" height="174" aria-label="Selected sample waveform"></canvas><div class="small-row"><div>START <b id="startLabel">00:00.000</b></div><div>END <b id="endLabel">00:00.500</b></div></div><label class="knob-field">START POSITION <input id="sampleStart" type="range" min="0" max="95" value="0" /></label><label class="knob-field">END POSITION <input id="sampleEnd" type="range" min="5" max="100" value="100" /></label><button class="outline-wide" id="replacePadBtn">REPLACE SELECTED PAD SAMPLE</button><button class="outline-wide" id="sliceBtn">SLICE SOURCE TO ALL 16 PADS</button></div>
+        <div id="shapeTab" class="tab-body hidden"><div class="panel-caption">SOUND CHARACTER</div><label class="knob-field">PITCH <output id="pitchOutput">0 ST</output><input id="pitch" type="range" min="-24" max="24" value="0"></label><label class="knob-field">ATTACK <output id="attackOutput">4 MS</output><input id="attack" type="range" min="0" max="1000" value="4"></label><label class="knob-field">RELEASE <output id="releaseOutput">250 MS</output><input id="release" type="range" min="20" max="2000" value="250"></label><label class="knob-field">FILTER <output id="filterOutput">OPEN</output><input id="filter" type="range" min="150" max="20000" value="20000"></label><button class="outline-wide" id="resetShape">RESET SOUND SHAPE</button></div>
+        <div id="mixerTab" class="tab-body hidden"><div class="panel-caption">PER-PAD MIX</div><label class="knob-field">LEVEL <output id="padGainOutput">100%</output><input id="padGain" type="range" min="0" max="150" value="100"></label><label class="knob-field">PAN <output id="panOutput">CENTER</output><input id="pan" type="range" min="-100" max="100" value="0"></label><div class="panel-caption">OUTPUT</div><div class="mono-text">Web Audio stereo output. Gain, pitch, filter and envelope apply to imported samples and generated tones.</div></div>
+        <div class="inspector-spacer"></div>
+        <div class="inspector-tools"><div class="panel-caption">EXTERNAL HARDWARE</div><button class="outline-wide" id="midiBtn">CONNECT MIDI CONTROLLER</button><button class="outline-wide" id="audioExportBtn">RECORD AUDIO PERFORMANCE</button><div class="hint-box" id="recordHint">Ready to perform. MIDI input is optional; mouse and keyboard work independently.</div></div>
+      </aside>
+    </div>
+    <footer class="footer"><div>MASCHINE LAB — UNOFFICIAL INDEPENDENT WORKSTATION</div><div id="statusLine">Load audio files, click a pad, or start the sequencer.</div><div>NOT AFFILIATED WITH NATIVE INSTRUMENTS OR NEKTAR</div></footer>
+  </div>
+  <input hidden type="file" id="sampleFiles" accept="audio/*,.wav,.aif,.aiff,.mp3,.flac,.ogg" multiple />
+  <input hidden type="file" id="singleSample" accept="audio/*,.wav,.aif,.aiff,.mp3,.flac,.ogg" />
+  <input hidden type="file" id="kitFiles" accept=".wav,.aif,.aiff,.mp3,.ogg,audio/*" webkitdirectory directory multiple />
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
