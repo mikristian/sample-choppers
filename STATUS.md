@@ -12,4 +12,4 @@ CHOPROOM was added as a reviewed source-only subdirectory. Its private song rest
 
 **Passed:** CHOPROOM JavaScript syntax, slicing, arrangement, marker, viewport, export, independent variants and collection tests; CHOPROOM device bridge Python compilation. Generated test ZIP files are ignored and untracked.
 
-**Not verified:** Full browser/device interoperability, compatibility with the private live runtime, or physical pad routing. The separate MusicREA auto-chopper application is excluded from this release.
+**Not verified:** Full browser/device interoperability, compatibility with the private live runtime, or physical pad routing. Standalone auto-chopping workflows are outside the scope of this collection.

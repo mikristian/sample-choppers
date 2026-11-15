@@ -1,17 +1,65 @@
-# Sampler Projects — source publication candidate
+# Sampler Projects
 
-Source trees for `NativeSampler/` (JUCE-based Vintage Sampler Lab), `ASR10Sampler/` (JUCE-based ASR-10 Sampler Lab) and `VintageSamplerLab/` (legacy Python sequencer/sampler).
+A collection of source experiments for music sampling, slicing, sequencing and plugin development. No audio samples or finished plugin binaries are bundled; bring recordings that you own or are licensed to use.
 
-The collection also includes **`CHOPROOM/`** for local browser chopping, pad banks, multitrack arrangements and exports. These tools are source-only, use your own audio, and do not include private demo recordings or samples. Each has its own setup and test README.
+## Projects and architecture
 
-## Build and test
-The two CMake projects require a separately installed JUCE 8 source checkout: `cmake -S NativeSampler -B /tmp/native-sampler-build -DJUCE_ROOT=/path/to/JUCE`; similarly for `ASR10Sampler`. Build requires the matching CMake/compiler/Apple audio toolchain. Legacy Python tests can be run from the VintageSamplerLab directory with Python 3 and its optional audio dependencies.
+| Folder | Technology | Scope |
+| --- | --- | --- |
+| [`CHOPROOM/`](CHOPROOM/) | Browser HTML, CSS and JavaScript; optional Python device bridge | Source audio editor, slicing markers, pad banks, arrangements, local session tools and export logic. |
+| [`NativeSampler/`](NativeSampler/) | JUCE 8, CMake, C++ | Native sampler engine, plugin interface, effects, MIDI/FLX4 bridge experiments and engine tests. |
+| [`ASR10Sampler/`](ASR10Sampler/) | JUCE 8, CMake, C++ | ASR-style instrument/plugin experiments including settings and bank/clip test suites. |
+| [`VintageSamplerLab/`](VintageSamplerLab/) | Python | Legacy sampler, pad sequencer, keyzones and UI experiments. |
 
-No user recordings, stems, generated banks, purchased samples, private songs, downloaded installer executables, screenshots, or native app binaries are included. Some import tools and optional sample-bank workflows have been omitted because they were tied to local storage. A complete sample-browsing experience requires appropriately licensed user-provided audio.
+Each component is independent. There is no unified installer or evidence that all source trees reproduce locally installed applications.
 
-## Limits
-UI builds using optional image resources need original redistributable replacements. Synthesizer and plugin validation requires JUCE and actual target DAW/host setup. No claim of full installed-app parity is made.
+## Run the browser editor
 
-CHOPROOM offline verification: `cd CHOPROOM && node test_slicing.js && node test_arranger.js && node test_export.js`.
+```sh
+cd CHOPROOM
+python3 -m http.server 8080
+# http://127.0.0.1:8080/
+```
 
-The independently maintained MusicREA auto-chopper is **not part of this repository**. Existing NativeSampler source retains an optional import format for compatible bank manifests; that compatibility code is not the MusicREA application or its analysis engine.
+Choose your own browser-supported audio; the source release has no demonstration songs. See [CHOPROOM's README](CHOPROOM/README.md) for details about slicing, arrangements and export limitations.
+
+## Build native projects
+
+JUCE 8 must be available separately along with CMake and a compatible C++/platform audio toolchain. Set `JUCE_ROOT` to your own JUCE source checkout:
+
+```sh
+cmake -S NativeSampler -B /tmp/native-sampler-build -DJUCE_ROOT=/path/to/JUCE
+cmake --build /tmp/native-sampler-build
+cmake -S ASR10Sampler -B /tmp/asr10-sampler-build -DJUCE_ROOT=/path/to/JUCE
+cmake --build /tmp/asr10-sampler-build
+```
+
+Native plugin/AU/VST and real host tests need the target DAW, audio devices and platform SDKs. Project-specific requirements are in the subfolder READMEs and CMake files.
+
+## Tests
+
+```sh
+python3 -m unittest discover -s VintageSamplerLab -p 'test_*.py'
+cd CHOPROOM
+node test_slicing.js
+node test_arranger.js
+node test_export.js
+node test_marker_controls.js
+node test_track_view.js
+node test_chop_variants.js
+node test_chop_collection.js
+```
+
+See [STATUS.md](STATUS.md) for the audited test outcomes. Native C++ builds have not been verified in this source-only staging environment.
+
+## Release scope
+
+No personal recordings, copyrighted music, sample libraries, audio stems, artwork with uncertain redistribution rights, cached render files, or compiled apps are included. Some optional features that depended on a particular local file layout have been omitted. Users must supply legally usable audio and their own environment configuration.
+
+See [third-party notices](THIRD_PARTY_NOTICES.md) for dependencies and attribution.
+
+## UI preview
+
+![CHOPROOM source editor with no audio loaded](docs/screenshots/choproom-empty-state.png)
+
+*Actual browser capture of the staged CHOPROOM empty state, 2026-11-14. No demo audio, user samples or hardware are present. This image confirms the UI renders, not that browser audio export or external devices have passed integration testing.*
