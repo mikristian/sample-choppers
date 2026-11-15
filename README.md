@@ -63,3 +63,15 @@ See [third-party notices](THIRD_PARTY_NOTICES.md) for dependencies and attributi
 ![CHOPROOM source editor with no audio loaded](docs/screenshots/choproom-empty-state.png)
 
 *Actual browser capture of the staged CHOPROOM empty state, 2026-11-14. No demo audio, user samples or hardware are present. This image confirms the UI renders, not that browser audio export or external devices have passed integration testing.*
+
+### CHOPROOM editor and pad workspace
+
+![CHOPROOM source editor with waveform workspace and slicing controls](docs/screenshots/choproom-workspace.png)
+
+![CHOPROOM source editor including the lower pad workspace](docs/screenshots/choproom-pads-workspace.png)
+
+Both additional images are actual November 14, 2026 headless Chrome screenshots of the staged `CHOPROOM/index.html` running without loaded audio. The 16-pad bank and slicing panels are visible in their empty state. These do not demonstrate successful audio rendering, device communication or export.
+
+### Native sampler, ASR and vintage interfaces
+
+`NativeSampler` and `ASR10Sampler` contain JUCE/C++ editor sources; `VintageSamplerLab` contains Python UI sources. A faithful screenshot of their actual boards requires building and launching each native interface with its proper runtime dependencies. No verified redistributable native-board capture was available during this pass, so this gallery does not substitute a fabricated board screenshot.
