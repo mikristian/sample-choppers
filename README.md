@@ -71,7 +71,7 @@ See [third-party notices](THIRD_PARTY_NOTICES.md) for dependencies and attributi
 
 ![Actual MASCHINE LAB 2D native macOS sampler application with redacted private audio and 16 RGB performance pads](docs/screenshots/maschine-lab-native-2d-redacted.png)
 
-**Original 3D MASCHINE LAB browser application (source included here):** The source-owned 3D controller model and its optional LX49-style keyboard were captured in actual Chrome sessions with synthetic demo sounds, not user tracks.
+**Original 3D MASCHINE LAB browser application (source included here):** The source-owned 3D controller model and its optional LX49-style keyboard were recaptured from the published browser source in a fresh headless Chrome session on November 14, 2026, using only synthetic demo sounds, not user tracks.
 
 | 3D modeled sampler | 3D sampler with optional modeled keyboard |
 | --- | --- |

@@ -22,3 +22,7 @@ The control geometry is an original study based on published product dimensions,
 The `vendor/` directory contains code from [three.js](https://github.com/mrdoob/three.js), Copyright (c) 2010–2025 three.js authors, under the **MIT License**, including its `OrbitControls`, `RoundedBoxGeometry` and core modules. See [THREE-LICENSE.md](THREE-LICENSE.md). The remaining workstation model and interface source are part of this project. Product names indicate hardware references only, not vendor affiliation.
 
 The [main Sampler Projects README](../README.md) also shows the genuinely installed native MASCHINE LAB 2D sampler, with personal audio/session text removed from its screenshot. That native program requires separate JUCE sources and a Mac build and is **not included as a runnable native binary** in this browser source folder.
+
+## Screenshot verification (2026-11-14)
+
+The screenshots in the parent README were freshly recaptured from this exact source tree with headless Google Chrome: HTTP 200, 16 responsive pad objects, Three.js canvas present, optional LX49 keyboard successfully toggled, and zero browser JavaScript exceptions. This is browser/UI verification, **not a hardware MIDI or real-audio latency test**.
